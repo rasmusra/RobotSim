@@ -1,3 +1,4 @@
+using RobotSim.Model;
 using Xunit;
 
 namespace RobotSim.UnitTests;

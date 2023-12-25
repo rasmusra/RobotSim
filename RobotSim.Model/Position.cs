@@ -1,4 +1,4 @@
-﻿namespace RobotSim.Console
+﻿namespace RobotSim.Model
 {
     public class Position
     {

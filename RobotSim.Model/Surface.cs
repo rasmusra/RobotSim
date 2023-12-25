@@ -1,4 +1,4 @@
-﻿namespace RobotSim
+﻿namespace RobotSim.Model
 {
     public class Surface
     {
