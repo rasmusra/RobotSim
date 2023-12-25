@@ -2,13 +2,18 @@
 {
     public class Surface
     {
-        public Surface(uint width, uint height)
+        private readonly Position _p1;
+        private readonly Position _p2;
+
+        public Surface(Position p1, Position p2)
         {
-            Width = width;
-            Height = height;
+            _p1 = p1;
+            _p2 = p2;
         }
 
-        public uint Width { get; }
-        public uint Height { get; }
+        public bool InBounds(Position position)
+        {
+            return position.X >= _p1.X && position.X <= _p2.X && position.Y >= _p1.Y && position.Y <= _p2.Y;
+        }
     }
 }
