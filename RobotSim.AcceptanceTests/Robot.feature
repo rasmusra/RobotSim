@@ -1,5 +1,7 @@
 ﻿Feature: Robot Simulator
 
+Background: The robot is on a 5x5 table. The table is square and has 5 columns and 5 rows. The robot is free to roam around the surface of the table, but must be prevented from falling to destruction. Any movement that would result in the robot falling from the table must be prevented, however further valid movement commands must still be allowed.
+
 @wip
 Scenario: Valid PLACE command
 Given the robot is off the table
