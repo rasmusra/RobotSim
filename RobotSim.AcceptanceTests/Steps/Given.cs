@@ -1,21 +1,16 @@
-﻿using TechTalk.SpecFlow;
+﻿using RobotSim.Domain;
+using TechTalk.SpecFlow;
 
 namespace RobotSim.AcceptanceTests.Steps
 {
     [Binding]
-    internal class Given
+    internal class Given(ScenarioContext context)
     {
-        private readonly ScenarioContext context;
-
-        public Given(ScenarioContext context)
-        {
-            this.context = context;
-        }
-
         [Given("the robot is off the table")]
         public void RemoveAnyRobot()
         {
-            context["Robot"] = null;
+            var surface = new Surface(new Position(0, 0), new Position(4, 4));
+            context["RobotSimulator"] = new RobotSimulator(surface);
         }
     }
 }
