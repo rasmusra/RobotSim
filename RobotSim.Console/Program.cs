@@ -1,12 +1,16 @@
-﻿namespace RobotSim.Console;
+﻿using RobotSim.Model;
+
+namespace RobotSim.Console;
 
 class Program
 {
     static void Main(string[] args)
     {
+        var surface = new Surface(new Position(0, 0), new Position(4, 4));
+
         while (true)
         {
-            System.Console.ReadLine();
+            var userCommand = System.Console.ReadLine();
         }
     }
 }
