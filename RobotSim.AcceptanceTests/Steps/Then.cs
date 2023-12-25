@@ -1,4 +1,5 @@
 ﻿using TechTalk.SpecFlow;
+using Xunit;
 
 namespace RobotSim.AcceptanceTests.Steps
 {
@@ -16,6 +17,7 @@ namespace RobotSim.AcceptanceTests.Steps
         public void AssertRobotState(string position, string cardinalDirection)
         {
             // TODO: Implement this step
+            Assert.Fail("Not implemented");
          }
     }
 }

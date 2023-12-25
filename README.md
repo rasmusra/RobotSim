@@ -14,6 +14,9 @@
 4. **Build the program**
    Use `dotnet build` to build the program.
 
+4. **Test**
+   Use `dotnet test` to run the tests.
+
 5. **Run the program**
    Use `dotnet run` to run the program.
 ## Operating the Program
