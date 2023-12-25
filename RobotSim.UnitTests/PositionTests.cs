@@ -1,5 +1,5 @@
+using RobotSim.Domain;
 using Xunit;
-using RobotSim.Model;
 
 namespace RobotSim.UnitTests;
 

@@ -1,4 +1,4 @@
-﻿using RobotSim.Model;
+﻿using RobotSim.Domain;
 using Xunit;
 
 namespace RobotSim.UnitTests
@@ -14,15 +14,6 @@ namespace RobotSim.UnitTests
             robotSimulator.Process("PLACE 0,0,NORTH");
             robotSimulator.Process("MOVE");
             robotSimulator.Process("REPORT");
-        }
-    }
-
-    internal class RobotSimulator(Surface surface)
-    {
-        private readonly Surface _surface = surface;
-
-        public void Process(string userCommand)
-        {
         }
     }
 }

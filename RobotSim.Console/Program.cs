@@ -1,4 +1,4 @@
-﻿using RobotSim.Model;
+﻿using RobotSim.Domain;
 
 namespace RobotSim.Console;
 

@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0ACC682A-2FEF-4E5A-BBBC-EB81D8BB585F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobotSim.Model", "RobotSim.Model\RobotSim.Model.csproj", "{E98D5FB5-5A73-4DE6-8299-694A7B80EB0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobotSim.Domain", "RobotSim.Domain\RobotSim.Domain.csproj", "{E98D5FB5-5A73-4DE6-8299-694A7B80EB0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
