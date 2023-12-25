@@ -1,4 +1,5 @@
 using Xunit;
+using RobotSim.Console;
 
 namespace RobotSim.UnitTests;
 

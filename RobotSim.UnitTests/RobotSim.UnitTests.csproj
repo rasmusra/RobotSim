@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RobotSim\RobotSim.csproj" />
+    <ProjectReference Include="..\RobotSim.Console\RobotSim.Console.csproj" />
   </ItemGroup>
 
 </Project>
