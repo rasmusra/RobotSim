@@ -1,19 +1,16 @@
 ﻿namespace RobotSim.Model
 {
-    public class Surface
+    public class Surface(Position p1, Position p2)
     {
-        private readonly Position _p1;
-        private readonly Position _p2;
-
-        public Surface(Position p1, Position p2)
-        {
-            _p1 = p1;
-            _p2 = p2;
-        }
+        private readonly Position _southWestCorner = new(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y));
+        private readonly Position _northEastCorner = new(Math.Max(p1.X, p2.X), Math.Max(p1.Y, p2.Y));
 
         public bool InBounds(Position position)
         {
-            return position.X >= _p1.X && position.X <= _p2.X && position.Y >= _p1.Y && position.Y <= _p2.Y;
+            return position.X >= _southWestCorner.X &&
+                   position.X <= _northEastCorner.X &&
+                   position.Y >= _southWestCorner.Y &&
+                   position.Y <= _northEastCorner.Y;
         }
     }
 }
