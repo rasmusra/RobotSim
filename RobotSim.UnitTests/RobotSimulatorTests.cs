@@ -6,7 +6,7 @@ namespace RobotSim.UnitTests
     public class RobotSimulatorTests
     {
         [Fact]
-        public void WhenCreated_GivenASurface_ThenCanProcessUserCommands()
+        public void WhenReport_GivenNoRobot_ThenCanProcessUserCommands()
         {
             var reports = new List<string>();
             var surface = new Surface(new Position(0, 0), new Position(4, 4));
@@ -14,17 +14,21 @@ namespace RobotSim.UnitTests
 
             robotSimulator.Process("REPORT");
 
-            Assert.Empty(reports);
+            Assert.Single(reports);
         }
-    }
-
-    public class ReporterSpy : Reporter
-    {
-        public readonly List<string> Reports = [];
-
-        public override void WriteLine(string message)
+        [Fact]
+        public void WhenPlacingRobot_GivenInsideSurface_ThenPositionIsReported()
         {
-            Reports.Add(message);
+            var expectedReport = "0,0,NORTH";
+            var reports = new List<string>();
+            var surface = new Surface(new Position(0, 0), new Position(4, 4));
+            var robotSimulator = new RobotSimulator(surface, reports.Add);
+
+            robotSimulator.Process("PLACE 0,0,NORTH");
+            robotSimulator.Process("REPORT");
+
+            Assert.Single(reports);
+            Assert.Equal(expectedReport, reports[0]);
         }
     }
 }

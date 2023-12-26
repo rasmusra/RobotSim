@@ -6,7 +6,7 @@ namespace RobotSim.AcceptanceTests.Steps
     [Binding]
     internal class Then(ScenarioContext context)
     {
-        [Then("Then I see '(.*)' on the screen")]
+        [Then("I see '(.*)' on the screen")]
         public void AssertRobotState(string expectedReport)
         {
             var actualReports = context["Reports"] as List<string>;

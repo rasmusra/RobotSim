@@ -10,7 +10,7 @@ When I issue the commands:
 | PLACE 0,0,NORTH |
 | MOVE            |
 | REPORT          |
-Then I see 'Output: 0, 1, NORTH' on the screen
+Then I see '0,1,NORTH' on the screen
 
 @todo
 Scenario: Invalid PLACE command
