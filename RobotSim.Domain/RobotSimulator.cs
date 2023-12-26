@@ -1,34 +1,38 @@
-﻿namespace RobotSim.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RobotSim.Domain;
 
 public class RobotSimulator(Surface surface, Action<string> report)
 {
     private readonly Action<string> _report = report;
     private readonly Surface _surface = surface;
-    private Position _position = null!;
-    private string? _cardinalDirection;
+    private Robot? _robot = null;
 
     public void Process(string userCommand)
     {
+
         if (userCommand.StartsWith("PLACE"))
         {
-            string?[] placementData = userCommand.Split(' ')[1].Split(',');
-            uint.TryParse(placementData[0], out var xPosition);
-            uint.TryParse(placementData[1], out var yPosition);
-            var position = new Position(xPosition, yPosition);
-            var cardinalDirection = placementData[2];
+            var newRobot = Robot.Parse(userCommand)!;
 
-            if (_surface.InBounds(position))
+            if (_surface.InBounds(newRobot.Position))
             {
-                _position = position;
-                _cardinalDirection = cardinalDirection;
+                _robot = newRobot;
             }
         }
-        else if (userCommand == "REPORT")
+        else switch (userCommand)
         {
-            if (_position != null && _cardinalDirection != null)
-            {
-                _report($"{_position.X},{_position.Y},{_cardinalDirection}");
-            }
+            case "REPORT":
+                if (_robot != null)
+                {
+                    _report(_robot.ToString()!);
+                }
+
+                break;
+
+            case "MOVE":
+                _robot?.Move();
+                break;
         }
     }
 }

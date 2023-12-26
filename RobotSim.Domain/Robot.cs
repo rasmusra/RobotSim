@@ -24,4 +24,14 @@ public class Robot(Position position, uint degrees)
 
     public Position Position { get; set; } = position;
     public uint Degrees { get; set; } = degrees;
+
+    public void Move()
+    {
+        Position = new Position(
+            Position.X + (uint)Math.Round(Math.Sin(this.Degrees * Math.PI / 180),2),
+            Position.Y + (uint)Math.Round(Math.Cos(this.Degrees * Math.PI / 180),2));
+    }
+
+    public override string ToString() => 
+        $"{Position.X},{Position.Y},{CardinalToDegrees.First(x => x.Value == Degrees).Key}";     
 }

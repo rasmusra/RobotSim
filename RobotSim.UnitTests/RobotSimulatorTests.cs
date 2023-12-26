@@ -46,5 +46,32 @@ namespace RobotSim.UnitTests
 
             Assert.Empty(reports);
         }
+        [Fact]
+        public void WhenMovingRobot_GivenNoRobotYet_ThenNothingIsReported()
+        {
+            var reports = new List<string>();
+            var surface = new Surface(new Position(0, 0), new Position(4, 4));
+            var robotSimulator = new RobotSimulator(surface, reports.Add);
+
+            robotSimulator.Process("MOVE");
+            robotSimulator.Process("REPORT");
+
+            Assert.Empty(reports);
+        }
+        [Fact]
+        public void WhenMovingRobot_GivenRobotExists_ThenMovedRobotIsReported()
+        {
+            var expectedReport = "0,4,NORTH";
+            var reports = new List<string>();
+            var surface = new Surface(new Position(0, 0), new Position(4, 4));
+            var robotSimulator = new RobotSimulator(surface, reports.Add);
+
+            robotSimulator.Process("PLACE 0,3,NORTH");
+            robotSimulator.Process("MOVE");
+            robotSimulator.Process("REPORT");
+
+            Assert.Single(reports);
+            Assert.Equal(expectedReport, reports[0]);
+        }
     }
 }
