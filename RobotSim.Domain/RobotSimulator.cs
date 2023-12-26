@@ -4,8 +4,7 @@ public class RobotSimulator(Surface surface, Action<string> report)
 {
     private readonly Action<string> _report = report;
     private readonly Surface _surface = surface;
-    private string? _xPosition;
-    private string? _yPosition;
+    private Position _position = null!;
     private string? _cardinalDirection;
 
     public void Process(string userCommand)
@@ -13,13 +12,23 @@ public class RobotSimulator(Surface surface, Action<string> report)
         if (userCommand.StartsWith("PLACE"))
         {
             string?[] placementData = userCommand.Split(' ')[1].Split(',');
-            _xPosition = placementData[0];
-            _yPosition = placementData[1];
-            _cardinalDirection = placementData[2];
+            uint.TryParse(placementData[0], out var xPosition);
+            uint.TryParse(placementData[1], out var yPosition);
+            var position = new Position(xPosition, yPosition);
+            var cardinalDirection = placementData[2];
+
+            if (_surface.InBounds(position))
+            {
+                _position = position;
+                _cardinalDirection = cardinalDirection;
+            }
         }
         else if (userCommand == "REPORT")
         {
-            _report($"{_xPosition},{_yPosition},{_cardinalDirection}");
+            if (_position != null && _cardinalDirection != null)
+            {
+                _report($"{_position.X},{_position.Y},{_cardinalDirection}");
+            }
         }
     }
 }
