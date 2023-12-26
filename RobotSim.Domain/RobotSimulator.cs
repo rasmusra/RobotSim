@@ -10,7 +10,9 @@ public class RobotSimulator(Surface surface, Action<string> report)
 
     public void Process(string userCommand)
     {
-
+        // TODO: should we use a regex here?
+        // TODO: should we use a switch expression here?
+        // TODO: what about a CommandParser class?
         if (userCommand.StartsWith("PLACE"))
         {
             var newRobot = Robot.Parse(userCommand)!;
@@ -23,6 +25,7 @@ public class RobotSimulator(Surface surface, Action<string> report)
         else switch (userCommand)
         {
             case "REPORT":
+                // TODO: keep checking null feels very error prone. How can we avoid?
                 if (_robot != null)
                 {
                     _report(_robot.ToString()!);
@@ -31,7 +34,19 @@ public class RobotSimulator(Surface surface, Action<string> report)
                 break;
 
             case "MOVE":
-                _robot?.Move();
+                // TODO: keep checking null feels very error prone. How can we avoid?
+                if (_robot != null)
+                {
+                    // TODO: a robot factory could keep this logic
+                    var newRobot = new Robot(_robot.Position, _robot.Degrees);
+                    newRobot.Move();
+
+                    if (_surface.InBounds(newRobot.Position))
+                    {
+                        _robot = newRobot;
+                    }
+                }
+
                 break;
         }
     }
