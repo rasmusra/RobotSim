@@ -81,9 +81,33 @@ Scenario Outline: Moving out of bounds
 		| REPORT                |
 	Then I see '<expected X>,<expected Y>,<direction>' on the screen
 
-Examples: Driving north
+Examples:
 	| direction | expected X | expected Y |
 	| NORTH     | 3          | 4          |
 	| SOUTH     | 3          | 0          |
 	| EAST      | 4          | 3          |
 	| WEST      | 0          | 3          |
+
+
+Scenario: Ignore bad commands
+	Given the robot is off the table
+	When I issue the commands:
+		| command          |
+		| PLACE -1,3,NORTH |
+		| REPORT           |
+		| PLACE 7,3,NORTH  |
+		| REPORT           |
+		| PLACE 3,3,NORTH  |
+		| REPORT           |
+		| PLACE 3,3        |
+		| REPORT           |
+		| MOVE             |
+		| PLACE 3,3,OOPS   |
+		| LELELELE         |
+		| LEFT             |
+		| REPORT           |
+	Then I see the following output:
+		| report    |
+		| 3,3,NORTH |
+		| 3,3,NORTH |
+		| 3,4,WEST  |
