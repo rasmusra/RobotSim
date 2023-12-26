@@ -5,8 +5,12 @@ Background: The robot is on a 5x5 table. The table is square and has 5 columns a
 @wip
 Scenario: Valid PLACE command
 Given the robot is off the table
-When I issue the command 'PLACE 1,1,NORTH'
-Then the robot is on the table at position '1,1' facing 'NORTH'
+When I issue the commands:
+| command         |
+| PLACE 0,0,NORTH |
+| MOVE            |
+| REPORT          |
+Then I see 'Output: 0, 1, NORTH' on the screen
 
 @todo
 Scenario: Invalid PLACE command

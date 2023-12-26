@@ -6,10 +6,15 @@ namespace RobotSim.AcceptanceTests.Steps
     [Binding]
     internal class When(ScenarioContext context)
     {
-        [When(@"I issue the command '(.*)'")]
-        public void Act(string command)
+        [When(@"I issue the commands:")]
+        public void Act(Table table)
         {
-            (context["RobotSimulator"] as RobotSimulator)!.Process(command);
+            var target = (context["RobotSimulator"] as RobotSimulator)!;
+            foreach (var row in table.Rows)
+            {
+                target.Process(row["command"]);
+            }
+            
         }
     }
 }

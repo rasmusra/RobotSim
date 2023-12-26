@@ -10,7 +10,9 @@ namespace RobotSim.AcceptanceTests.Steps
         public void RemoveAnyRobot()
         {
             var surface = new Surface(new Position(0, 0), new Position(4, 4));
-            context["RobotSimulator"] = new RobotSimulator(surface);
+            var reports = new List<string>();
+            context["Reports"] = reports; 
+            context["RobotSimulator"] = new RobotSimulator(surface, reports.Add);
         }
     }
 }

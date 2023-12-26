@@ -4,20 +4,14 @@ using Xunit;
 namespace RobotSim.AcceptanceTests.Steps
 {
     [Binding]
-    internal class Then
+    internal class Then(ScenarioContext context)
     {
-        private readonly ScenarioContext context;
-
-        public Then(ScenarioContext context)
+        [Then("Then I see '(.*)' on the screen")]
+        public void AssertRobotState(string expectedReport)
         {
-            this.context = context;
+            var actualReports = context["Reports"] as List<string>;
+            Assert.Single(actualReports!);
+            Assert.Equal(expectedReport, actualReports![0]);
         }
-
-        [Then("the robot is on the table at position '(.*)' facing '(.*)'")]
-        public void AssertRobotState(string position, string cardinalDirection)
-        {
-            // TODO: Implement this step
-            Assert.Fail("Not implemented");
-         }
     }
 }
