@@ -9,10 +9,11 @@ public class RobotSimulator(Surface surface, Action<string> report)
         // TODO: what about a CommandParser class?
         if (userCommand.StartsWith("PLACE"))
         {
-            var newRobot = Robot.Parse(userCommand);
-            _robot = newRobot != null && surface.InBounds(newRobot.Position)
-                ? newRobot
-                : _robot; // keep the old robot if the new one is invalid
+            if (Robot.TryParse(userCommand, out var newRobot) && 
+                surface.InBounds(newRobot!.Position))
+            {
+                _robot = newRobot;
+            }
         }
         else switch (userCommand)
         {

@@ -9,9 +9,11 @@ public class RobotTests
     [InlineData("PLACE 0,0")]
     [InlineData("PLACE 0,0,OOPS")]
     [InlineData("PLACE")]
-    public void WhenCreated_GivenBadFormat_ThenNullIsReturned(string badFormatOfPlacementData)
+    public void WhenTryToCreate_GivenBadFormat_ThenFalseIsReturned(string badFormatOfPlacementData)
     {
-        var robot = Robot.Parse(badFormatOfPlacementData);
+        var robotOk = Robot.TryParse(badFormatOfPlacementData, out var robot);
+
+        Assert.False(robotOk);
         Assert.Null(robot);
     }
 
@@ -23,8 +25,9 @@ public class RobotTests
     public void WhenParsingState_GivenStateIsValid_ThenNewRobotIsReturned(
         string placementData, int expectedDegrees)
     {
-        var robot = Robot.Parse(placementData);
+        var robotOk = Robot.TryParse(placementData, out var robot);
 
+        Assert.True(robotOk);
         Assert.Equal(0, robot!.Position.X);
         Assert.Equal(1, robot.Position.Y);
         Assert.Equal(expectedDegrees, robot.Degrees);
@@ -38,10 +41,10 @@ public class RobotTests
     public void WhenMoving_GivenRobotIsPlacedInMiddle_ThenRobotIsMoved(
         string placementData, int expectedX, int expectedY)
     {
-        var robot = Robot.Parse(placementData)!;
+        var robotOk = Robot.TryParse(placementData, out var robot);
+        robot!.Move();
 
-        robot.Move();
-
+        Assert.True(robotOk);
         Assert.Equal(expectedX, robot.Position.X);
         Assert.Equal(expectedY, robot.Position.Y);
     }
@@ -54,8 +57,10 @@ public class RobotTests
     public void WhenSerializingToString_GivenPosition_ThenStringRepresentationIsReturned(
         string placementData, string expectedString)
     {
-        var robot = Robot.Parse(placementData)!;
-        var actual = robot.ToString();
+        var robotOk = Robot.TryParse(placementData, out var robot);
+        var actual = robot!.ToString();
+
+        Assert.True(robotOk);
         Assert.Equal(expectedString, actual);
     }
 
@@ -67,8 +72,10 @@ public class RobotTests
     public void WhenTurningLeft_GivenPosition_ThenExpectedDirectionIsSet(
         string placementData, int expectedDegrees)
     {
-        var robot = Robot.Parse(placementData)!;
-        robot.TurnLeft();
+        var robotOk = Robot.TryParse(placementData, out var robot);
+        robot!.TurnLeft();
+
+        Assert.True(robotOk);
         Assert.Equal(expectedDegrees, robot.Degrees);
     }
 
@@ -80,8 +87,10 @@ public class RobotTests
     public void WhenTurningRight_GivenPosition_ThenExpectedDirectionIsSet(
         string placementData, int expectedDegrees)
     {
-        var robot = Robot.Parse(placementData)!;
-        robot.TurnRight();
+        var robotOk = Robot.TryParse(placementData, out var robot);
+        robot!.TurnRight();
+
+        Assert.True(robotOk);
         Assert.Equal(expectedDegrees, robot.Degrees);
     }
 

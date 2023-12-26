@@ -17,22 +17,6 @@ public class Robot(Position position, int degrees)
     public Position Position { get; set; } = position;
     public int Degrees { get; set; } = degrees;
 
-    public static Robot? Parse(string placeCommand)
-    {
-        try
-        {
-            string?[] placementData = placeCommand.Split(' ')[1].Split(',');
-            var xOk = int.TryParse(placementData[0], out var x);
-            var yOk = int.TryParse(placementData[1], out var y);
-            var degreesOk = CardinalToDegrees.TryGetValue(placementData[2]!, out var degrees);
-
-            return xOk && yOk && degreesOk
-                ? new Robot(new Position(x, y), degrees)
-                : null;
-        }
-        catch { return null; }
-    }
-
     public void Move()
     {
         Position = new Position(
@@ -51,5 +35,29 @@ public class Robot(Position position, int degrees)
     public void TurnRight()
     {
         Degrees = _modulus(Degrees + 90, 360);
+    }
+
+    public static bool TryParse(string placeCommand, out Robot? robot)
+    {
+        robot = null;
+
+        try
+        {
+            string?[] placementData = placeCommand.Split(' ')[1].Split(',');
+            var xOk = int.TryParse(placementData[0], out var x);
+            var yOk = int.TryParse(placementData[1], out var y);
+            var degreesOk = CardinalToDegrees.TryGetValue(placementData[2]!, out var degrees);
+
+            if (xOk && yOk && degreesOk)
+            {
+                robot = new Robot(new Position(x, y), degrees);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+
+        return robot != null;
     }
 }
