@@ -2,7 +2,7 @@
 
 public class RobotSimulator(Surface surface, Action<string> report)
 {
-    private Robot? _robot = null;
+    private Robot? _robot;
 
     public void Process(string userCommand)
     {
@@ -10,11 +10,9 @@ public class RobotSimulator(Surface surface, Action<string> report)
         if (userCommand.StartsWith("PLACE"))
         {
             var newRobot = Robot.Parse(userCommand);
-
-            if (newRobot != null && surface.InBounds(newRobot.Position))
-            {
-                _robot = newRobot;
-            }
+            _robot = newRobot != null && surface.InBounds(newRobot.Position)
+                ? newRobot
+                : _robot; // keep the old robot if the new one is invalid
         }
         else switch (userCommand)
         {
