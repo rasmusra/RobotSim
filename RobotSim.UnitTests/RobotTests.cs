@@ -4,8 +4,17 @@ using Xunit;
 namespace RobotSim.UnitTests;
 
 public class RobotTests
-
 {
+    [Theory]
+    [InlineData("PLACE 0,0")]
+    [InlineData("PLACE 0,0,OOPS")]
+    [InlineData("PLACE")]
+    public void WhenCreated_GivenBadFormat_ThenNullIsReturned(string badFormatOfPlacementData)
+    {
+        var robot = Robot.Parse(badFormatOfPlacementData);
+        Assert.Null(robot);
+    }
+
     [Theory]
     [InlineData("PLACE 0,1,NORTH", 0)]
     [InlineData("PLACE 0,1,EAST", 90)]

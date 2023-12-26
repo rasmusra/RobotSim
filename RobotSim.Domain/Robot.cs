@@ -19,14 +19,18 @@ public class Robot(Position position, int degrees)
 
     public static Robot? Parse(string placeCommand)
     {
-        string?[] placementData = placeCommand.Split(' ')[1].Split(',');
-        var xOk = int.TryParse(placementData[0], out var x);
-        var yOk = int.TryParse(placementData[1], out var y);
-        var degreesOk = CardinalToDegrees.TryGetValue(placementData[2]!, out var degrees);
+        try
+        {
+            string?[] placementData = placeCommand.Split(' ')[1].Split(',');
+            var xOk = int.TryParse(placementData[0], out var x);
+            var yOk = int.TryParse(placementData[1], out var y);
+            var degreesOk = CardinalToDegrees.TryGetValue(placementData[2]!, out var degrees);
 
-        return xOk && yOk && degreesOk
-            ? new Robot(new Position(x, y), degrees)
-            : null;
+            return xOk && yOk && degreesOk
+                ? new Robot(new Position(x, y), degrees)
+                : null;
+        }
+        catch { return null; }
     }
 
     public void Move()
