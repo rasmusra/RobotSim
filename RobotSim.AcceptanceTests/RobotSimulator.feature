@@ -1,53 +1,89 @@
 ﻿Feature: Robot Simulator
 
-Background: The robot is on a 5x5 table. The table is square and has 5 columns and 5 rows. The robot is free to roam around the surface of the table, but must be prevented from falling to destruction. Any movement that would result in the robot falling from the table must be prevented, however further valid movement commands must still be allowed.
+Background:
+	Given the surface is a table with dimensions:
+		| width | height |
+		| 5     | 5      |
 
-@wip
-Scenario: Valid PLACE command
-Given the robot is off the table
-When I issue the commands:
-| command         |
-| PLACE 0,0,NORTH |
-| MOVE            |
-| REPORT          |
-Then I see '0,1,NORTH' on the screen
 
-@todo
+Scenario: Move command
+	Given the robot is off the table
+	When I issue the commands:
+		| command         |
+		| PLACE 0,0,NORTH |
+		| MOVE            |
+		| REPORT          |
+	Then I see '0,1,NORTH' on the screen
+
+
+Scenario Outline: Turn command
+	Given the robot is off the table
+	When I issue the commands:
+		| command         |
+		| PLACE 0,0,NORTH |
+		| <turn command>  |
+		| REPORT          |
+	Then I see '0,0,<direction>' on the screen
+
+Examples:
+	| turn command | direction |
+	| LEFT         | WEST      |
+	| RIGHT        | EAST      |
+
+
+Scenario: Driving around
+	Given the robot is off the table
+	When I issue the commands:
+		| command        |
+		| PLACE 1,2,EAST |
+		| MOVE           |
+		| MOVE           |
+		| LEFT           |
+		| MOVE           |
+		| REPORT         |
+	Then I see '3,3,NORTH' on the screen
+
+
 Scenario: Invalid PLACE command
-Given the robot is off the table
-When I issue the command "PLACE 6,6,NORTH"
-Then the robot should still be off the table
+	Given the robot is off the table
+	When I issue the commands:
+		| command         |
+		| PLACE 6,6,NORTH |
+		| MOVE            |
+		| REPORT          |
+	Then I see nothing on the screen
 
-@todo
-Scenario: MOVE command
-Given the robot is on the table at position 1,1 facing NORTH
-When I issue the command "MOVE"
-Then the robot is on the table at position 1,2 facing NORTH
 
-@todo
-Scenario: LEFT command
-Given the robot is on the table at position 1,1 facing NORTH
-When I issue the command "LEFT"
-Then the robot is on the table at position 1,1 facing WEST
+Scenario: Replacing the robot
+	Given the robot is off the table
+	When I issue the commands:
+		| command         |
+		| PLACE 1,2,NORTH |
+		| REPORT          |
+		| PLACE 3,4,SOUTH |
+		| REPORT          |
+	Then I see the following output:
+		| report    |
+		| 1,2,NORTH |
+		| 3,4,SOUTH |
 
-@todo
-Scenario: RIGHT command
-Given the robot is on the table at position 1,1 facing NORTH
-When I issue the command "RIGHT"
-Then the robot is on the table at position 1,1 facing EAST
 
-@todo
-Scenario: REPORT command
-Given the robot is on the table at position 1,1 facing NORTH
-When I issue the command "REPORT"
-Then the output is "1,1,NORTH"
 
-@todo
-Scenario: Ignore commands when off the table
-Given the robot is off the table
-When I issue the command "MOVE"
-And I issue the command "LEFT"
-And I issue the command "RIGHT"
-And I issue the command "REPORT"
-Then the robot should still be off the table
-And there is no output
+Scenario Outline: Moving out of bounds
+	Given the robot is off the table
+	When I issue the commands:
+		| command               |
+		| PLACE 3,3,<direction> |
+		| MOVE                  |
+		| MOVE                  |
+		| MOVE                  |
+		| MOVE                  |
+		| REPORT                |
+	Then I see '<expected X>,<expected Y>,<direction>' on the screen
+
+Examples: Driving north
+	| direction | expected X | expected Y |
+	| NORTH     | 3          | 4          |
+	| SOUTH     | 3          | 0          |
+	| EAST      | 4          | 3          |
+	| WEST      | 0          | 3          |

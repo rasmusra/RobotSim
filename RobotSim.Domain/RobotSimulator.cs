@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace RobotSim.Domain;
+﻿namespace RobotSim.Domain;
 
 public class RobotSimulator(Surface surface, Action<string> report)
 {
@@ -10,8 +8,6 @@ public class RobotSimulator(Surface surface, Action<string> report)
 
     public void Process(string userCommand)
     {
-        // TODO: should we use a regex here?
-        // TODO: should we use a switch expression here?
         // TODO: what about a CommandParser class?
         if (userCommand.StartsWith("PLACE"))
         {
@@ -47,6 +43,14 @@ public class RobotSimulator(Surface surface, Action<string> report)
                     }
                 }
 
+                break;
+
+            case "LEFT":
+                _robot?.TurnLeft();
+                break;
+
+            case "RIGHT":
+                _robot?.TurnRight();
                 break;
         }
     }

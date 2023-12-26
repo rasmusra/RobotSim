@@ -1,8 +1,8 @@
 ﻿namespace RobotSim.Domain
 {
-    public class Position(uint x, uint y)
+    public class Position(int x, int y)
     {
-        public uint X { get; } = x;
-        public uint Y { get; } = y;
+        public int X { get; } = x;
+        public int Y { get; } = y;
     }
 }

@@ -63,7 +63,7 @@ namespace RobotSim.UnitTests
         [InlineData("PLACE 0,0,EAST", "1,0,EAST")]
         [InlineData("PLACE 0,1,SOUTH", "0,0,SOUTH")]
         [InlineData("PLACE 1,0,WEST", "0,0,WEST")]
-        public void WhenMovingRobot_GivenRobotExists_ThenMovedRobotIsReported(
+        public void WhenReporting_GivenRobotIsMoved_ThenMovedRobotIsReported(
             string placementCommand, string expectedReport)
         {
             var reports = new List<string>();
@@ -77,12 +77,13 @@ namespace RobotSim.UnitTests
             Assert.Single(reports);
             Assert.Equal(expectedReport, reports[0]);
         }
+
         [Theory]
         [InlineData("PLACE 0,4,NORTH", "0,4,NORTH")]
         [InlineData("PLACE 4,0,EAST", "4,0,EAST")]
         [InlineData("PLACE 0,0,SOUTH", "0,0,SOUTH")]
         [InlineData("PLACE 0,0,WEST", "0,0,WEST")]
-        public void WhenMovingRobot_GivenRobotIsAtBorder_ThenUnmovedRobotIsReported(
+        public void WhenReporting_GivvenRobotIsMovedOutOfBounds_ThenUnmovedRobotIsReported(
             string placementCommand, string expectedReport)
         {
             var reports = new List<string>();
@@ -90,6 +91,31 @@ namespace RobotSim.UnitTests
             var robotSimulator = new RobotSimulator(surface, reports.Add);
 
             robotSimulator.Process(placementCommand);
+            robotSimulator.Process("MOVE");
+            robotSimulator.Process("REPORT");
+
+            Assert.Single(reports);
+            Assert.Equal(expectedReport, reports[0]);
+        }
+
+        [Theory]
+        [InlineData("PLACE 2,3,NORTH", "LEFT", "1,3,WEST")]
+        [InlineData("PLACE 2,3,EAST", "LEFT", "2,4,NORTH")]
+        [InlineData("PLACE 2,3,SOUTH", "LEFT", "3,3,EAST")]
+        [InlineData("PLACE 2,3,WEST", "LEFT", "2,2,SOUTH")]
+        [InlineData("PLACE 2,3,NORTH", "RIGHT", "3,3,EAST")]
+        [InlineData("PLACE 2,3,EAST", "RIGHT", "2,2,SOUTH")]
+        [InlineData("PLACE 2,3,SOUTH", "RIGHT", "1,3,WEST")]
+        [InlineData("PLACE 2,3,WEST", "RIGHT", "2,4,NORTH")]
+        public void WhenReporting_GivenRobotIsTurned_ThenNewPositionIsReported(
+            string placementCommand, string turnCommand, string expectedReport)
+        {
+            var reports = new List<string>();
+            var surface = new Surface(new Position(0, 0), new Position(4, 4));
+            var robotSimulator = new RobotSimulator(surface, reports.Add);
+
+            robotSimulator.Process(placementCommand);
+            robotSimulator.Process(turnCommand);
             robotSimulator.Process("MOVE");
             robotSimulator.Process("REPORT");
 

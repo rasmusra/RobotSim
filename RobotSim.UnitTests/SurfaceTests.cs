@@ -12,7 +12,7 @@ public class SurfaceTests
     [InlineData(4, 0, 0, 4)]
     [InlineData(4, 4, 0, 4)]
     public void WhenCreated_GivenCornerPositions_ThenCornerPositionsAreInBounds(
-        uint x1, uint y1, uint x2, uint y2)
+        int x1, int y1, int x2, int y2)
     {
         var p1 = new Position(x1, y1);
         var p2 = new Position(x2, y2);
