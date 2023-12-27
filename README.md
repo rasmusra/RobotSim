@@ -1,7 +1,7 @@
 RobotSim is the C# implementation of the HiQ exercise about steering a robot on a 5x5 tabletop surface.
 
 ## Prerequisites
-This program runs on .NET 8.0.100-preview.10.21311.6.
+This program runs on [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
 
 ## Test
 ```
